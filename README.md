@@ -13,7 +13,7 @@ Currently supported configs:
 
 Clone the repository:
 ```bash
-git clone git@github.com:prycq/init-server.git
+git clone https://github.com/prycq/init-server.git
 ```
 
 Enter the project directory:
