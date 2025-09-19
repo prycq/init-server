@@ -22,3 +22,5 @@ for i in "${!CONF_FILES[@]}"; do
 done
 
 echo "✔ Initial configuration completed, please reboot server."
+cd ..
+rm -rf init-server

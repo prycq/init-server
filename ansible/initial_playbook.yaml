@@ -1,0 +1,41 @@
+- name: INITIAL PLAYBOOK FOR LINUX SERVERS
+  hosts: all
+  tasks:
+    - name: INSTALL THE NEEDED PACKAGES
+      become: true
+      ansible.builtin.apt:
+        pkg:
+          - curl
+          - wget
+          - git
+          - tmux
+          - vim
+          - bmon
+          - htop
+        update_cache: yes
+
+    - name: CLONE A REPO WITH server-init SCRIPTS
+      ansible.builtin.git:
+        repo: 'https://github.com/prycq/init-server.git'
+        dest: /tmp/init-server-repo
+
+    - name: CHANGE SCRIPT PERMISSIONS
+      ansible.builtin.file:
+        path: /tmp/init-server-repo/init-script.sh
+        mode: +x
+
+    - name: RUN INIT CONFIGURATION SCRIPT (AS BASIC USER)
+      ansible.builtin.command: /tmp/init-server-repo/init-script.sh
+      args:
+        chdir: /tmp/init-server-repo
+
+    - name: RUN INIT CONFIGURATION SCRIPT (AS ROOT)
+      become: true
+      ansible.builtin.command: init-script.sh
+      args:
+        chdir: /tmp/init-server-repo
+
+    - name: REBOOT SERVERS
+      become: true
+      ansible.builtin.reboot:
+    
